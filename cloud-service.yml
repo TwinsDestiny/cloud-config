@@ -7,7 +7,9 @@ server:
 spring:
   application:
     name: cloud-service
-  profiles: dev
+  config:
+    activate:
+      on-profile: dev
 # Eureka server configuration
 eureka:
   client:
@@ -32,7 +34,9 @@ server:
 spring:
   application:
     name: cloud-service
-  profiles: prod
+  config:
+    activate:
+      on-profile: prod
 # Eureka server configuration
 eureka:
   client:
