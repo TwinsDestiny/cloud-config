@@ -1,0 +1,22 @@
+server:
+  port: 8060
+spring:
+  application:
+    name: cloud-service
+# Eureka server configuration
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    rest-template-timeout:
+      connect-timeout: 30000
+      connect-request-timeout: 30000
+      socket-timeout: 30000
+  instance:
+    instance-id: cloud-service
+    prefer-ip-address: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health
