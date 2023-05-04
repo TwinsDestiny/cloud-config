@@ -18,6 +18,29 @@ eureka:
   instance:
     instance-id: cloud-service
     prefer-ip-address: true
+
+#resilience4j
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      minimumNumberOfCalls: 5
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.util.concurrent.TimeoutException
+        - java.io.IOException
+        - java.lang.NullPointerException
+  instances:
+    backendA:
+      baseConfig: default
+
+#监控
 management:
   endpoints:
     web:
