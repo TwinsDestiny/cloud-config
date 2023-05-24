@@ -6,6 +6,41 @@ spring:
   config:
     activate:
       on-profile: dev
+#mysql
+  datasource:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://127.0.0.1:3306/bilibilifans?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+    username: "root"
+    password: "123456"
+    hikari:
+      connection-timeout: 30000
+      idle-timeout: 600000
+#redis
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+#mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: org.yuno.cloudservice.entity
+  configuration:
+    map-underscore-to-camel-case: true
+#minio
+minio:
+  url: http://127.0.0.1:9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+#url地址
+urlconfig:
+  bilibil_api_url: https://api.bilibili.com
+  bilibil_live_api_url: https://api.live.bilibili.com
+  siddhi_query_url: https://127.0.0.1:9443/stores/query
+  img_url: https://gasaiyuno.vip/api/file
+  bark_url: https://api.day.app/jVfMobNCQJiTbaHMk8nvmb
+  bilibili_chat: wss://broadcastlv.chat.bilibili.com/sub
+
+
 # Eureka server configuration
 eureka:
   client:
