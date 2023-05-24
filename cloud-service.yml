@@ -10,7 +10,8 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/,http://localhost:8762/eureka/
+#      defaultZone: http://localhost:8761/eureka/,http://localhost:8762/eureka/
+      defaultZone: http://124.221.36.8:32761/eureka/
     rest-template-timeout:
       connect-timeout: 30000
       connect-request-timeout: 30000
@@ -55,7 +56,7 @@ management:
 
 ---
 server:
-  port: 8066
+  port: 8060
 spring:
   application:
     name: cloud-service
@@ -66,14 +67,15 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_INSTANCE_LIST}
     rest-template-timeout:
       connect-timeout: 30000
       connect-request-timeout: 30000
       socket-timeout: 30000
   instance:
-    instance-id: cloud-service
-    prefer-ip-address: true
+    prefer-ip-address: false
+    hostname: ${CONFIG_INSTANCE_HOST_NAME}
+
 management:
   endpoints:
     web:
