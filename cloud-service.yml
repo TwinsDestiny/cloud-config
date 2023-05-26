@@ -23,7 +23,7 @@ spring:
 #mybatis
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
-  type-aliases-package: org.yuno.cloudservice.entity
+  type-aliases-package: org.yuno.cloud.entity
   configuration:
     map-underscore-to-camel-case: true
 #minio
