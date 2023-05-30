@@ -37,3 +37,33 @@ management:
         include: info,health
 
 ---
+server:
+  port: 8080
+spring:
+  application:
+    name: cloud-gateway
+  config:
+    activate:
+      on-profile: prod
+  cloud:
+    #配置路由
+    gateway:
+      discovery:
+        locator:
+          enabled: true #自动配置
+          lower-case-service-id: true #小写
+# Eureka server configuration
+eureka:
+  client:
+    #    registerWithEureka: false
+    serviceUrl:
+      defaultZone: ${EUREKA_INSTANCE_LIST}
+  instance:
+    prefer-ip-address: false
+    hostname: ${GATEWAY_INSTANCE_HOST_NAME}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health
