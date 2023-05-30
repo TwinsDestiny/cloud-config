@@ -4,9 +4,9 @@ server:
 spring:
   application:
     name: cloud-stream
-    config:
-      activate:
-        on-profile: dev
+  config:
+    activate:
+      on-profile: dev
   rabbitmq:
     host: localhost
     port: 5672
@@ -122,9 +122,9 @@ server:
 spring:
   application:
     name: cloud-stream
-    config:
-      activate:
-        on-profile: prod
+  config:
+    activate:
+      on-profile: prod
   rabbitmq:
     host: rabbitmq-0.rabbitmq-service.default.svc.cluster.local
     port: 5672
