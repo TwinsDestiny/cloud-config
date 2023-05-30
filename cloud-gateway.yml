@@ -25,7 +25,7 @@ eureka:
   client:
     #    registerWithEureka: false
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/,http://localhost:8762/eureka/
+      defaultZone: http://124.221.36.8:32761/eureka/
   instance:
     instance-id: cloud-gateway
     prefer-ip-address: true
