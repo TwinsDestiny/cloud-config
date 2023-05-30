@@ -40,7 +40,20 @@ urlconfig:
   bark_url: https://api.day.app/jVfMobNCQJiTbaHMk8nvmb
   bilibili_chat: wss://broadcastlv.chat.bilibili.com/sub
 
+#openfeign
+spring.cloud.openfeign:
+  compression:
+    request.enabled: true
+    response.enabled: true
+  circuitbreaker.enabled: true
 
+#curator配置
+curator:
+  connectString: 127.0.0.1:2181 # zookeeper 地址
+  retryCount: 1 # 重试次数
+  elapsedTimeMs: 2000 # 重试间隔时间
+  sessionTimeoutMs: 60000 # session超时时间
+  connectionTimeoutMs: 10000 # 连接超时时间
 # Eureka server configuration
 eureka:
   client:
@@ -99,6 +112,61 @@ spring:
   config:
     activate:
       on-profile: prod
+  #mysql
+  datasource:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://mysql-0.mysql-service.default.svc.cluster.local:3306/bilibilifans?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+    username: "root"
+    password: ${MYSQL_PASSWORD}
+    hikari:
+      connection-timeout: 30000
+      idle-timeout: 600000
+  #redis
+  data:
+    redis:
+      cluster:
+        nodes:
+          - redis-0.redis-service.default.svc.cluster.local:6379
+          - redis-1.redis-service.default.svc.cluster.local:6379
+          - redis-2.redis-service.default.svc.cluster.local:6379
+          - redis-3.redis-service.default.svc.cluster.local:6379
+          - redis-4.redis-service.default.svc.cluster.local:6379
+          - redis-5.redis-service.default.svc.cluster.local:6379
+#mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: org.yuno.cloud.entity
+  configuration:
+    map-underscore-to-camel-case: true
+#minio
+minio:
+  url: http://minio-service.default.svc:9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+#url地址
+urlconfig:
+  bilibil_api_url: https://api.bilibili.com
+  bilibil_live_api_url: https://api.live.bilibili.com
+  siddhi_query_url: https://siddhi-runner-service.default.svc:9443/stores/query
+  img_url: https://gasaiyuno.vip/api/file
+  bark_url: https://api.day.app/jVfMobNCQJiTbaHMk8nvmb
+  bilibili_chat: wss://broadcastlv.chat.bilibili.com/sub
+
+#openfeign
+spring.cloud.openfeign:
+  compression:
+    request.enabled: true
+    response.enabled: true
+  circuitbreaker.enabled: true
+
+#curator配置
+curator:
+  connectString: zookeeper-0.zookeeper-cluster.default.svc.cluster.local:2181 # zookeeper 地址
+  retryCount: 1 # 重试次数
+  elapsedTimeMs: 2000 # 重试间隔时间
+  sessionTimeoutMs: 60000 # session超时时间
+  connectionTimeoutMs: 10000 # 连接超时时间
+
 # Eureka server configuration
 eureka:
   client:
@@ -110,8 +178,37 @@ eureka:
       socket-timeout: 30000
   instance:
     prefer-ip-address: false
-    hostname: ${CONFIG_INSTANCE_HOST_NAME}
+    hostname: ${SERVICE_INSTANCE_HOST_NAME}
 
+#resilience4j
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        failureRateThreshold: 50 #失败请求百分⽐，超过这个⽐例，CircuitBreaker变为OPEN状态
+        slidingWindowSize: 10 #滑动窗⼝的⼤⼩，配置COUNT_BASED,表示10个请求，配置TIME_BASED表示10秒
+        minimumNumberOfCalls: 5 #最⼩请求个数，只有在滑动窗⼝内，请求个数达到这个个数，才会触发CircuitBreader对于断路器的判断
+        slidingWindowType: TIME_BASED #滑动窗⼝的类型
+        permittedNumberOfCallsInHalfOpenState: 3 #当CircuitBreaker处于HALF_OPEN状态的时候，允许通过的请求个数
+        automaticTransitionFromOpenToHalfOpenEnabled: true #设置true，表示⾃动从OPEN变成HALF_OPEN，即使没有请求过来
+        waitDurationInOpenState: 2s #从OPEN到HALF_OPEN状态需要等待的时间
+    #        recordExceptions: #异常名单
+    #          - java.lang.Exception
+    instances:
+      baseCircuit:
+        baseConfig: default #熔断器backendA，继承默认配置default
+      slowCircuit:
+        slowCallDurationThreshold: 2s #慢调⽤时间阈值，⾼于这个阈值的呼叫视为慢调⽤，并增加慢调⽤⽐例。
+        slowCallRateThreshold: 30 #慢调⽤百分⽐阈值，断路器把调⽤时间⼤于slowCallDurationThreshold，视为慢调⽤，当慢调⽤⽐例⼤于阈值，断路器打开，并进⾏服务降级
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        slidingWindowType: TIME_BASED
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 2s
+
+#监控
 management:
   endpoints:
     web:
