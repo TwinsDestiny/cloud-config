@@ -43,3 +43,51 @@ management:
     web:
       exposure:
         include: info,health
+
+---
+#原始配置
+server:
+  port: 8040
+spring:
+  application:
+    name: cloud-task
+  config:
+    activate:
+      on-profile: prod
+
+spring.cloud.openfeign:
+  compression:
+    request.enabled: true
+    response.enabled: true
+  circuitbreaker.enabled: true
+
+task:
+  collect:
+    fans: 0 0/5 * * * ?
+    account: 0 0/20 * * * ?
+    room: 0 0/1 * * * ?
+    guard: 0 1/10 * * * ?
+    video: 0 1/30 * * * ?
+  livews: 0/10 * * * * ?
+  redis:
+    history: 0 0/30 * * * ?
+    pic: 0 0/30 * * * ?
+
+# Eureka server configuration
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_INSTANCE_LIST}
+    rest-template-timeout:
+      connect-timeout: 30000
+      connect-request-timeout: 30000
+      socket-timeout: 30000
+  instance:
+    prefer-ip-address: false
+    hostname: ${TASK_INSTANCE_HOST_NAME}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health
