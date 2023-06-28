@@ -24,6 +24,7 @@ task:
   livews: 0/10 * * * * ?
   redis:
     history: 0 0/30 * * * ?
+    liveanalyse: 0 0 * * * ?
     pic: 0 0/30 * * * ?
 
 # Eureka server configuration
@@ -71,6 +72,7 @@ task:
   livews: 0/10 * * * * ?
   redis:
     history: 0 0/30 * * * ?
+    liveanalyse: 0 0 * * * ?
     pic: 0 0/30 * * * ?
 
 # Eureka server configuration
