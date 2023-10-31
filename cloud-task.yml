@@ -16,11 +16,11 @@ spring.cloud.openfeign:
 
 task:
   collect:
-    fans: 0 0/10 * * * ?
-    account: 0 0/20 * * * ?
+    fans: 0 0/5 * * * ?
+    account: 0 0/5 * * * ?
     room: 0 0/1 * * * ?
-    guard: 0 1/10 * * * ?
-    video: 0 1/30 * * * ?
+    guard: 0 1/5 * * * ?
+    video: 0 1/5 * * * ?
   livews: 0/10 * * * * ?
   redis:
     history: 0 0/30 * * * ?
@@ -64,11 +64,11 @@ spring.cloud.openfeign:
 
 task:
   collect:
-    fans: 0 0/10 * * * ?
-    account: 0 0/20 * * * ?
+    fans: 0 0/5 * * * ?
+    account: 0 0/5 * * * ?
     room: 0 0/1 * * * ?
-    guard: 0 1/10 * * * ?
-    video: 0 1/30 * * * ?
+    guard: 0 1/5 * * * ?
+    video: 0 1/5 * * * ?
   livews: 0/10 * * * * ?
   redis:
     history: 0 0/30 * * * ?
